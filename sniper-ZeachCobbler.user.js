@@ -538,8 +538,8 @@ jQuery("#connecting").after('<canvas id="canvas" width="800" height="600"></canv
             return;
             
 		// split until the end - /c0dedeaf
-        //if (zeach.myPoints.length !== 1)
-        //    return;
+        if (zeach.myPoints.length > 3)
+            return;
 
         var me = zeach.myPoints[0];
 
@@ -876,14 +876,16 @@ jQuery("#connecting").after('<canvas id="canvas" width="800" height="600"></canv
                             delete vec.gr_type; //vec.gr_type = null;
                         } else {
                             // Hate them a bit less than same-sized blobs.
-                            dist *= 25;
+                            dist *= 2;
                         }
                     }
 					
-					// split and run /c0dedeaf
-                    if (el.id === lastSplittedForBlob.id && lastSplitTime + 1000 < new Date())
-                        dist /= 100; // Continue chasing if split did not hit
-
+					// chasing /c0dedeaf
+                    if (!bigGuysAround()) {
+                    	if (el.id === lastSplittedForBlob.id && lastSplitTime + 1000 < new Date()) {
+                        	dist /= 100; // Continue chasing if split did not hit
+                        }
+					}
                     dist = Math.max(dist, 0.01);
 
                     // Prioritize targets by size

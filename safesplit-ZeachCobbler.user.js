@@ -881,8 +881,18 @@ jQuery("#connecting").after('<canvas id="canvas" width="800" height="600"></canv
                     }
 					
 					// split and run /c0dedeaf
-                    //if (el.id === lastSplittedForBlob.id && lastSplitTime + 1000 < new Date())
-                    //    dist /= 100; // Continue chasing if split did not hit
+					function bigGuysAround() {
+            			return zeach.allItems.some(function (threat) {
+                			return !threat.isVirus && getMass(threat.size) > getMass(el.size);
+            			});
+        			}
+					
+					// chasing /c0dedeaf
+                    if (!bigGuysAround()) {
+                    	if (el.id === lastSplittedForBlob.id && lastSplitTime + 1000 < new Date()) {
+                        	dist /= 100; // Continue chasing if split did not hit
+                        }
+					}
 
                     dist = Math.max(dist, 0.01);
 
