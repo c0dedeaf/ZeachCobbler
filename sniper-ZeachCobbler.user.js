@@ -876,7 +876,7 @@ jQuery("#connecting").after('<canvas id="canvas" width="800" height="600"></canv
                             delete vec.gr_type; //vec.gr_type = null;
                         } else {
                             // Hate them a bit less than same-sized blobs.
-                            dist *= 2;
+                            dist *= 25;
                         }
                     }
 					
