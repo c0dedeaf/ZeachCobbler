@@ -880,7 +880,7 @@ jQuery("#connecting").after('<canvas id="canvas" width="800" height="600"></canv
                         }
                     }
 					
-					// split and run /c0dedeaf
+					// split and chase /c0dedeaf
 					function bigGuysAround() {
             			return zeach.allItems.some(function (threat) {
                 			return !threat.isVirus && getMass(threat.size) > getMass(el.size);
@@ -888,8 +888,8 @@ jQuery("#connecting").after('<canvas id="canvas" width="800" height="600"></canv
         			}
 					
 					// chasing /c0dedeaf
-                    if (!bigGuysAround()) {
-                    	if (el.id === lastSplittedForBlob.id && lastSplitTime + 1000 < new Date()) {
+                    if (el.id === lastSplittedForBlob.id && lastSplitTime + 1000 < new Date()) {
+                    	if (!bigGuysAround()) {
                         	dist /= 100; // Continue chasing if split did not hit
                         }
 					}

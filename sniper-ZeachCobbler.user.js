@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Zeach Cobbler
+// @name         Zeach Cobbler - Sniper
 // @namespace    https://github.com/RealDebugMonkey/ZeachCobbler
 // @updateURL    http://bit.do/ZeachCobblerJS2
 // @downloadURL  http://bit.do/ZeachCobblerJS2
@@ -433,18 +433,22 @@ jQuery("#connecting").after('<canvas id="canvas" width="800" height="600"></canv
 
     function doGrazing() {
 
-        doSplitting();
-
+		var me = zeach.myPoints[0];
+		
+		if(getMass(me.size) > 150.25) {
+        	doSplitting();
+        }
+            
+        // for(var b in zeach) { console.log(b); console.log(zeach.b); }
+        
         var i;
         if(!isPlayerAlive()) {
-            //isGrazing = false;
             return;
         }
         
         if(null === throttledResetGrazingTargetId){
             throttledResetGrazingTargetId = _.throttle(function (){
                 grazzerTargetResetRequest = 'all';
-                //console.log(~~(Date.now()/1000));
             }, 200);
         }
         
@@ -459,7 +463,6 @@ jQuery("#connecting").after('<canvas id="canvas" width="800" height="600"></canv
             var pseudoBlob = getMouseCoordsAsPseudoBlob();
 
             pseudoBlob.size = getSelectedBlob().size;
-            //pseudoBlob.scoreboard = scoreboard;
             var newTarget = findFoodToEat_old(pseudoBlob,zeach.allItems);
             if(-1 == newTarget){
                 isGrazing = false;
@@ -538,14 +541,14 @@ jQuery("#connecting").after('<canvas id="canvas" width="800" height="600"></canv
             return;
             
 		// split until the end - /c0dedeaf
-        if (zeach.myPoints.length > 3)
-            return;
+        //if (zeach.myPoints.length > 3)
+        //    return;
 
         var me = zeach.myPoints[0];
 
 		// no fucks given, going in all the way - /c0dedeaf
-        //if (bigGuysAround())
-        //    return;
+        if (bigGuysAround())
+            return;
 
         var bestTarget = undefined;
 
@@ -562,6 +565,12 @@ jQuery("#connecting").after('<canvas id="canvas" width="800" height="600"></canv
         if (bestTarget)
             splitAgainst(bestTarget);
 
+        function bigGuysAround() {
+            return zeach.allItems.some(function (threat) {
+                return !threat.isVirus && getMass(threat.size) > getMass(me.size);
+            });
+        }
+
         function edible(target) {
             return !target.isVirus &&
                 target.name !== me.name &&
@@ -577,12 +586,6 @@ jQuery("#connecting").after('<canvas id="canvas" width="800" height="600"></canv
 
         function worthSplittingFor(target) {
             return getMass(target.size) > getMass(me.size) * Tiny * Tiny;
-        }
-
-        function bigGuysAround() {
-            return zeach.allItems.some(function (threat) {
-                return !threat.isVirus && getMass(threat.size) > getMass(me.size);
-            });
         }
 
         function splitAgainst(target) {
@@ -880,9 +883,15 @@ jQuery("#connecting").after('<canvas id="canvas" width="800" height="600"></canv
                         }
                     }
 					
+					function bigGuysAround() {
+            			return zeach.allItems.some(function (threat) {
+                			return !threat.isVirus && getMass(threat.size) > getMass(el.size);
+            			});
+        			}
+					
 					// chasing /c0dedeaf
-                    if (!bigGuysAround()) {
-                    	if (el.id === lastSplittedForBlob.id && lastSplitTime + 1000 < new Date()) {
+					if (el.id === lastSplittedForBlob.id && lastSplitTime + 1000 < new Date()) {
+                    	if (!bigGuysAround()) {
                         	dist /= 100; // Continue chasing if split did not hit
                         }
 					}
